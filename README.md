@@ -80,9 +80,52 @@ Sometimes your tokens vanish way before you expected. The usual suspects:
 
 ## 📊 What It Shows
 
-1. **Overall summary** — total tokens (input / output / cache), total cost, overall cache hit rate.
-2. **Daily costs** — spot the expensive days at a glance.
-3. **Top 5 sessions** — your biggest token spenders, ranked.
+When you run it, you get three sections — example output:
+
+```
+┌──────────────────────────┐
+│  Claude Analytic Report  │
+└──────────────────────────┘
+
+Detected Claude path: C:\Users\you\.claude\projects
+Total sessions:       3
+
+▶ Overall Summary
+┌─────────────────────────────┬───────────┐
+│ Metric                      │ Value     │
+├─────────────────────────────┼───────────┤
+│ Total Input Tokens          │ 272       │
+│ Total Output Tokens         │ 62,260    │
+│ Total Cache Read Tokens     │ 4,123,997 │
+│ Total Cache Write Tokens    │ 135,468   │
+│ Overall Cache Hit Rate      │ 99.99%    │
+└─────────────────────────────┴───────────┘
+
+▶ Daily Costs
+┌────────────┬─────┬────────┬───────────┬─────────┬─────────┐
+│ Date       │ In  │ Out    │ Cache R   │ Cache W │ Cost    │
+├────────────┼─────┼────────┼───────────┼─────────┼─────────┤
+│ 2026-05-01 │ 272 │ 62,260 │ 4,123,997 │ 135,468 │ $2.6799 │
+└────────────┴─────┴────────┴───────────┴─────────┴─────────┘
+Total cost across all days: $2.6799
+
+▶ Top 5 Sessions by Token Usage
+┌──────────────────────┬─────┬────────┬───────────┐
+│ Session              │ In  │ Out    │ Cache Hit │
+├──────────────────────┼─────┼────────┼───────────┤
+│ d--workspace-claude… │ 153 │ 28,150 │ 99.99%    │
+│ d--workspace-c160c1… │  69 │ 21,284 │ 99.99%    │
+│ d--workspace-claude… │  50 │ 12,826 │ 99.99%    │
+└──────────────────────┴─────┴────────┴───────────┘
+
+💡 Tip: High cache hit rate = lower cost
+```
+
+### What each section tells you
+
+1. **Overall Summary** — totals for every token type and your overall cache hit rate. Green = healthy.
+2. **Daily Costs** — one row per day, so you can spot the expensive days at a glance.
+3. **Top 5 Sessions by Token Usage** — your biggest spenders, ranked, with their individual hit rate.
 
 ### Pricing used
 
