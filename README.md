@@ -3,7 +3,7 @@
 > **Tokens ran out faster than expected? Don't know where they went?**
 > This tool shows you — locally, in seconds.
 
-A CLI that reads your local Claude Code sessions and reports **token usage, cache hit rate, and daily costs** so you can see *why* your quota disappeared.
+A CLI that reads your local Claude Code sessions and reports **token usage and cache hit rate** so you can see *why* your quota disappeared.
 
 ---
 
@@ -51,7 +51,7 @@ When you keep talking in the same session, Claude doesn't re-read your earlier m
 ### How It Works
 1. Claude Code stores every session locally as JSONL files under `~/.claude/projects/`.
 2. This tool **reads those files** — no network calls, no API keys needed.
-3. It tallies up token counts per session and per day, applies the published pricing, and prints a summary.
+3. It tallies up token counts per session, computes your cache hit rate, and prints a summary.
 4. **Done.** Everything stays on your machine.
 
 ---
@@ -80,7 +80,7 @@ Sometimes your tokens vanish way before you expected. The usual suspects:
 
 ## 📊 What It Shows
 
-When you run it, you get three sections — example output:
+When you run it, you get two sections — example output:
 
 ```
 ┌──────────────────────────┐
@@ -89,6 +89,15 @@ When you run it, you get three sections — example output:
 
 Detected Claude path: C:\Users\you\.claude\projects
 Total sessions:       3
+
+▶ Top 5 Sessions by Token Usage
+┌──────────────────────┬─────┬────────┬───────────┐
+│ Session              │ In  │ Out    │ Cache Hit │
+├──────────────────────┼─────┼────────┼───────────┤
+│ d--workspace-claude… │ 153 │ 28,150 │ 99.99%    │
+│ d--workspace-c160c1… │  69 │ 21,284 │ 99.99%    │
+│ d--workspace-claude… │  50 │ 12,826 │ 99.99%    │
+└──────────────────────┴─────┴────────┴───────────┘
 
 ▶ Overall Summary
 ┌─────────────────────────────┬───────────┐
@@ -101,40 +110,15 @@ Total sessions:       3
 │ Overall Cache Hit Rate      │ 99.99%    │
 └─────────────────────────────┴───────────┘
 
-▶ Daily Costs
-┌────────────┬─────┬────────┬───────────┬─────────┬─────────┐
-│ Date       │ In  │ Out    │ Cache R   │ Cache W │ Cost    │
-├────────────┼─────┼────────┼───────────┼─────────┼─────────┤
-│ 2026-05-01 │ 272 │ 62,260 │ 4,123,997 │ 135,468 │ $2.6799 │
-└────────────┴─────┴────────┴───────────┴─────────┴─────────┘
-Total cost across all days: $2.6799
-
-▶ Top 5 Sessions by Token Usage
-┌──────────────────────┬─────┬────────┬───────────┐
-│ Session              │ In  │ Out    │ Cache Hit │
-├──────────────────────┼─────┼────────┼───────────┤
-│ d--workspace-claude… │ 153 │ 28,150 │ 99.99%    │
-│ d--workspace-c160c1… │  69 │ 21,284 │ 99.99%    │
-│ d--workspace-claude… │  50 │ 12,826 │ 99.99%    │
-└──────────────────────┴─────┴────────┴───────────┘
-
 💡 Tip: High cache hit rate = lower cost
 ```
 
 ### What each section tells you
 
-1. **Overall Summary** — totals for every token type and your overall cache hit rate. Green = healthy.
-2. **Daily Costs** — one row per day, so you can spot the expensive days at a glance.
-3. **Top 5 Sessions by Token Usage** — your biggest spenders, ranked, with their individual hit rate.
+1. **Top 5 Sessions by Token Usage** — your biggest spenders, ranked, with their individual hit rate.
+2. **Overall Summary** — totals for every token type and your overall cache hit rate. Green = healthy.
 
-### Pricing used
-
-| Token type   | Rate / 1M tokens |
-| ------------ | ---------------- |
-| Input        | $3.00            |
-| Output       | $15.00           |
-| Cache read   | $0.30            |
-| Cache write  | $3.75            |
+> **Reference — Claude pricing per 1M tokens:** Input $3.00 · Output $15.00 · Cache read $0.30 · Cache write $3.75. The tool itself only reports tokens and hit rate; this table is here to help you interpret the numbers.
 
 ---
 
